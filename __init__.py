@@ -123,7 +123,7 @@ def vara(ml):
 
     bryce4varasavedif = ml.find_label('bryce4').search_if('varasaved == False')
     bryce4varasavedif.branch().search_say("You know what happened out on patrol today? We found a dead child and her mother in their home in the outskirts of town.").link_from('impermanence_four_vara_bryce4_dead')
-    bryce4varasavedif.branch_else().hook_to('impermanence_four_vara_bryce4_dead',return_link=False,condition='varasaved == False and persistent.impermanence_four_killer')
+    bryce4varasavedif.branch_else().hook_to('impermanence_four_vara_bryce4_dead',return_link=False,condition='varasaved == False and (persistent.varasaved == False or persistent.impermanence_four_killer)')
 
 
 @loadable_mod
