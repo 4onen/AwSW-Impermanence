@@ -126,11 +126,73 @@ def remy():
 
 
 def vara():
-    
+    adineif = ( 
+        ml.find_label('c4hatchery')
+        .search_if('adinestatus == "none"')
+    )
 
-    bryce4varasavedif = ml.find_label('bryce4').search_if('varasaved == False')
-    bryce4varasavedif.branch().search_say("You know what happened out on patrol today? We found a dead child and her mother in their home in the outskirts of town.").link_from('impermanence_four_vara_bryce4_dead')
-    bryce4varasavedif.branch_else().hook_to('impermanence_four_vara_bryce4_dead',return_link=False,condition='varasaved == False and (persistent.varasaved == False or persistent.impermanence_four_killer)')
+    # Set label for jumping back persistent.remygoodending with adinestatus=="none"
+    ( adineif
+        .branch('adinestatus == "none"')
+        .search_if('remygoodending == True')
+        .branch()
+        .search_say("Looks like you took my advice.")
+        .link_from('impermanence_four_varadead_hatchery_adinestatusnone_remychat')
+        .search_say("I think we should go inside.")
+        .link_from('impermanence_four_varadead_hatchery_adinestatusnone_goinside')
+    )
+    # Jump back persistent.remygoodending with adinnestatus=="none"
+    ( adineif
+        .branch('adinestatus == "none"')
+        .search_if('persistent.remygoodending == True')
+        .branch()
+        .search_say("Good job, [player_name].")
+        .hook_to('impermanence_four_varadead_hatchery_adinestatusnone_remychat', return_link=False, condition='varasaved == False and (persistent.varasaved == False or persistent.impermanence_four_killer)')
+    )
+    # Jump over vara in hatchery remygoodending with adinnestatus=="none"
+    ( adineif
+        .branch('adinestatus == "none"')
+        .search_if('remygoodending == True')
+        .branch()
+        .search_say("I'm glad we did. It was long overdue.")
+        .hook_to('impermanence_four_varadead_hatchery_adinestatusnone_goinside', return_link=False, condition='varasaved == False and (persistent.varasaved == False or persistent.impermanence_four_killer)')
+    )
+
+        # Set label for jumping back persistent.remygoodending with adinestatus=="none"
+    ( adineif
+        .branch_else()
+        .search_if('remygoodending == True')
+        .branch()
+        .search_say("Looks like you took my advice.")
+        .link_from('impermanence_four_varadead_hatchery_adinestatusneutralgood_remychat')
+        .search_say("I think we should go inside.")
+        .link_from('impermanence_four_varadead_hatchery_adinestatusneutralgood_goinside')
+    )
+    # Jump back persistent.remygoodending with adinnestatus=="none"
+    ( adineif
+        .branch_else()
+        .search_if('persistent.remygoodending == True')
+        .branch()
+        .search_say("Good job, [player_name].")
+        .hook_to('impermanence_four_varadead_hatchery_adinestatusneutralgood_remychat', return_link=False, condition='varasaved == False and (persistent.varasaved == False or persistent.impermanence_four_killer)')
+    )
+    # Jump over vara in hatchery remygoodending with adinnestatus=="none"
+    ( adineif
+        .branch_else()
+        .search_if('remygoodending == True')
+        .branch()
+        .search_say("I'm glad we did. It was long overdue.")
+        .hook_to('impermanence_four_varadead_hatchery_adinestatusneutralgood_goinside', return_link=False, condition='varasaved == False and (persistent.varasaved == False or persistent.impermanence_four_killer)')
+    )
+
+    bryce4varasaved_line_before = ml.find_label('bryce4').search_say("How could someone ever get used to this? It's my duty, you know. But I can't save them all. Never could.", depth=300)
+    ( bryce4varasaved_line_before
+        .search_if('varasaved == False',depth=3)
+        .branch()
+        .search_say("You know what happened out on patrol today? We found a dead child and her mother in their home in the outskirts of town.")
+        .link_from('impermanence_four_vara_bryce4_dead')
+    )
+    bryce4varasaved_line_before.hook_to('impermanence_four_vara_bryce4_dead',return_link=False,condition='varasaved == False and (persistent.varasaved == False or persistent.impermanence_four_killer)')
 
 
 def sebastian():
@@ -166,6 +228,7 @@ class AwSWImpermanenceMod(Mod):
         remy()
         bryce()
         sebastian()
+        vara()
 
     @staticmethod
     def mod_complete():
