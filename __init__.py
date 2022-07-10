@@ -3,44 +3,41 @@ from modloader.modclass import Mod, loadable_mod
 import jz_magmalink as ml
 
 def no_reenlightenment():
-    args = {'condition':'persistent.impermanence_four_no_reenlightenment == True','return_link':False}
+    args = {'condition':'persistent.impermanence_four_no_reenlightenment == True and (persistent.trueending == True)','return_link':False}
     ( ml.find_label('seccont')
-        .search_if('persistent.trueending')
+        .search_scene('chap1')
+        .search_with()
         .hook_to('impermanence_four_no_reenlightenment_c1',**args)
         .search_python('renpy.pause(4.0)')
         .link_from('impermanence_four_no_reenlightenment_c1_end')
     )
 
     ( ml.find_label('chapter2')
-        .search_python('cardtrauma = False')
+        .search_scene('chap2')
+        .search_with()
         .hook_to('impermanence_four_no_reenlightenment_c2',**args)
         .search_python('renpy.pause(2.0)')
         .link_from('impermanence_four_no_reenlightenment_c2_end')
     )
 
-    ( ml.find_label('chapter3')
-        .search_if('persistent.trueending == True')
-        .add_entry(condition='persistent.impermanence_four_no_reenlightenment == True and trueselectable == True and persistent.trueending == False',
-                   jump='impermanence_four_no_reenlightenment_c3',
-                   before='persistent.trueending == True')
-        .link_behind_from('impermanence_four_no_reenlightenment_c3_end')
+    c3 = ml.find_label('chapter3').search_scene('chap3').search_with()
+    ( c3.search_if('carddisplayed == False')
+        .link_from('impermanence_four_no_reenlightenment_c3_end')
     )
+    c3.hook_to('impermanence_four_no_reenlightenment_c3_end',**args)
 
-    ( ml.find_label('chapter4')
-        .search_if('persistent.trueending == True')
-        .add_entry(condition='persistent.impermanence_four_no_reenlightenment == True and trueselectable == True and persistent.trueending == False',
-                    jump='impermanence_four_no_reenlightenment_c4',
-                    before='persistent.trueending == True')
-        .link_behind_from('impermanence_four_no_reenlightenment_c4_end')
+    c4 = ml.find_label('chapter4').search_python('carddisplayed = False')
+    ( c4.search_if('carddisplayed == False')
+        .link_from('impermanence_four_no_reenlightenment_c4_end')
     )
+    c4.hook_to('impermanence_four_no_reenlightenment_c4_end',**args)
+    
 
-    ( ml.find_label('chapter5')
-        .search_if('persistent.trueending')
-        .add_entry(condition='persistent.impermanence_four_no_reenlightenment == True and trueselectable == True and persistent.trueending == False',
-                    jump='impermanence_four_no_reenlightenment_c5',
-                    before='persistent.trueending')
-        .link_behind_from('impermanence_four_no_reenlightenment_c5_end')
+    c5 = ml.find_label('chapter5').search_python('carddisplayed = False')
+    ( c5.search_if('carddisplayed == False')
+        .link_from('impermanence_four_no_reenlightenment_c5_end')
     )
+    c5.hook_to('impermanence_four_no_reenlightenment_c5_end',**args)
 
 
 def testresults():

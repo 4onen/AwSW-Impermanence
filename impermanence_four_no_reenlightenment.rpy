@@ -1,11 +1,7 @@
 label impermanence_four_no_reenlightenment_c1:
-    scene chap1 at Position(xpos=0.0,ypos=0.0,xanchor=0.0,yanchor=0.0) with None
-    show black with None
-    $ renpy.pause(0.0)
-    hide black with dissolveslow
+    $ renpy.pause (0.0)
 
-
-    if trueselectable == True and persistent.trueending == False:
+    if trueselectable == True:
         show cenlightenment at Pan((100, 0), (0, 0), 2.0)
         $ cardenlightenment = True
     elif persistent.lastendingseen == "bad":
@@ -30,12 +26,9 @@ label impermanence_four_no_reenlightenment_c1:
     jump impermanence_four_no_reenlightenment_c1_end
 
 label impermanence_four_no_reenlightenment_c2:
-    scene chap2 at Position(xpos=0.0,ypos=0.0,xanchor=0.0,yanchor=0.0) with None
-    show black with None
-    $ renpy.pause(0.0)
-    hide black with dissolveslow
+    $ renpy.pause (0.0)
 
-    if trueselectable == True and persistent.trueending == False:
+    if trueselectable == True:
         show cenlightenment at Pan((100, 0), (0, 0), 2.0) with dissolveslow
         $ cardenlightenment = True
     elif evil2points >= 12:
@@ -60,28 +53,4 @@ label impermanence_four_no_reenlightenment_c2:
     with dissolveslow
 
     jump impermanence_four_no_reenlightenment_c2_end
-
-label impermanence_four_no_reenlightenment_c3:
-    show cenlightenment at Pan((100, 0), (0, 0), 2.0) with dissolveslow
-    python:
-        cardenlightenment = True
-        lastcard = "cenlightenment"
-        carddisplayed = True
-    jump impermanence_four_no_reenlightenment_c3_end
-
-label impermanence_four_no_reenlightenment_c4:
-    show cenlightenment at Pan((100, 0), (0, 0), 2.0) with dissolveslow
-    python:
-        cardenlightenment = True
-        lastcard = "cenlightenment"
-        carddisplayed = True
-    jump impermanence_four_no_reenlightenment_c4_end
-
-label impermanence_four_no_reenlightenment_c5:
-    show cenlightenment at Pan((100, 0), (0, 0), 2.0) with dissolveslow
-    python:
-        cardenlightenment = True
-        lastcard = "cenlightenment"
-        carddisplayed = True
-    jump impermanence_four_no_reenlightenment_c5_end
 
