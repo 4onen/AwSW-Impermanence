@@ -231,8 +231,9 @@ def sebastian():
 def trueending_killer():
     def trueending_killer_func():
         renpy.store.trueselectable = False
-        renpy.store.cardenlightenment = False
-        renpy.store.cardloss = True
+        if renpy.store.cardenlightenment:
+            renpy.store.cardenlightenment = False
+            renpy.store.cardloss = True
     args = {'func':trueending_killer_func,'condition':'any([adinedead, annadead, brycedead, loremdead, remydead])'}
 
     for label in ['c3cont', 'c3contx']:
