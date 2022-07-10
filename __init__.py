@@ -133,6 +133,23 @@ def vara():
     bryce4varasavedif.branch_else().hook_to('impermanence_four_vara_bryce4_dead',return_link=False,condition='varasaved == False and (persistent.varasaved == False or persistent.impermanence_four_killer)')
 
 
+def sebastian():
+    seb_complains = (
+        ml.find_label('c4cont2')
+        .search_if('mcfirst == True')
+        .branch()
+        .search_say("Yes, it has a great tradition behind it. What peeves me most is that I'll be on guard duty when it happens this year, so I probably won't be able to see a thing.")
+    )
+
+    ( seb_complains.search_if('persistent.sebastianplayed == True')
+        .branch()
+        .search_menu("I'll be sure not to miss it then.")
+        .link_from('impermanence_four_sebastian_choice')
+    )
+
+    seb_complains.hook_to('impermanence_four_sebastian_choice', return_link=False, condition='persistent.sebastianplayed == True')
+
+
 @loadable_mod
 class AwSWImpermanenceMod(Mod):
     name = "Impermanence"
@@ -148,6 +165,7 @@ class AwSWImpermanenceMod(Mod):
         adine()
         remy()
         bryce()
+        sebastian()
 
     @staticmethod
     def mod_complete():
