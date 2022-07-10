@@ -56,6 +56,10 @@ def testresults():
 
 
 def adine():
+    c4 = ml.find_label('chapter4').search_if('persistent.adinegoodending == False')
+    c4.branch().search_if('adinestatus == "bad"').link_from('impermanence_four_adine_loss_card')
+    c4.add_entry('persistent.impermanence_four_killer == True', jump='impermanence_four_adine_loss_card')
+
     ml.find_label('chapter5').search_if('persistent.adinegoodending == False').hook_to('impermanence_four_adine_killer')
 
 
@@ -73,6 +77,16 @@ def anna():
         .link_from('impermanence_four_anna_killer')
     )
     c3.hook_to('impermanence_four_anna_killer', condition=condition, return_link=False)
+
+    def register_anna_loss():
+        renpy.store.c4displayloss = True
+        renpy.store.c4displayanna = True
+        renpy.store.c4displaycharacters += 1
+
+        renpy.store.mp.annaloss = True
+        renpy.store.mp.save()
+
+    ml.find_label('chapter4').hook_function(register_anna_loss, condition='annadead == True')
 
 
 def bryce():
