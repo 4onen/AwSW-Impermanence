@@ -82,6 +82,12 @@ def bryce():
     brycefirstlabelif.branch_else().search_say("I watched as Bryce made his way to the front door. Looking around, I scanned the windows of the building for any sign of movement.").link_from('impermanence_four_brycefirstlabelbad')
     brycefirstlabelif.branch().hook_to('impermanence_four_brycefirstlabelbad', return_link=False)
 
+    # Save Bryce from the timeline glitch if you've completed Bryce's good ending.
+    ( ml.find_label('mcfirst')
+        .search_with('dissolve')
+        .hook_to('didit', return_link=False, condition='persistent.brycegoodending == True')
+    )
+
 
 def remy():
     # Chapter 2
