@@ -1,7 +1,8 @@
-from modloader import modinfo
 from modloader.modclass import Mod, loadable_mod
 
-def no_reenlightenment(ml):
+import jz_magmalink as ml
+
+def no_reenlightenment():
     args = {'condition':'persistent.impermanence_four_no_reenlightenment == True','return_link':False}
     ( ml.find_label('seccont')
         .search_if('persistent.trueending')
@@ -42,7 +43,7 @@ def no_reenlightenment(ml):
     )
 
 
-def testresults(ml):
+def testresults():
     testresultsif = ml.find_label('c4skip1') \
         .search_if('persistent.endingsseen > 0') \
         .branch() \
@@ -54,11 +55,11 @@ def testresults(ml):
             condition='blood == False') \
 
 
-def adine(ml):
+def adine():
     ml.find_label('chapter5').search_if('persistent.adinegoodending == False').hook_to('impermanence_four_adine_killer')
 
 
-def bryce(ml):
+def bryce():
     brycecardif = ml.find_label('chapter4').search_if('persistent.brycegoodending == False')
     brycecardif.branch().search_if('totalinv <= 6').link_from('impermanence_four_bryce_c4card')
     brycecardif.add_entry('persistent.impermanence_four_no_reenlightenment == True',jump='impermanence_four_bryce_c4card')
@@ -82,7 +83,7 @@ def bryce(ml):
     brycefirstlabelif.branch().hook_to('impermanence_four_brycefirstlabelbad', return_link=False)
 
 
-def remy(ml):
+def remy():
     # Chapter 2
     ( ml.find_label('_call_skipcheck_34')
         .hook_to('impermanence_four_remy_c2picturesseenskip')
@@ -118,7 +119,7 @@ def remy(ml):
     ml.find_label('chapter5').search_if('persistent.remygoodending == False').hook_to('impermanence_four_remy_c5_killer')
 
 
-def vara(ml):
+def vara():
     
 
     bryce4varasavedif = ml.find_label('bryce4').search_if('varasaved == False')
@@ -135,13 +136,12 @@ class AwSWImpermanenceMod(Mod):
 
     @classmethod
     def mod_load(cls):
-        ml = modinfo.get_mods()["MagmaLink"].import_ml()
         ml.register_mod_settings(cls, screen='impermanence_four_modsettings')
-        no_reenlightenment(ml)
-        testresults(ml)
-        adine(ml)
-        remy(ml)
-        bryce(ml)
+        no_reenlightenment()
+        testresults()
+        adine()
+        remy()
+        bryce()
 
     @staticmethod
     def mod_complete():
