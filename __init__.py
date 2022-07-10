@@ -3,7 +3,8 @@ from modloader.modclass import Mod, loadable_mod
 import jz_magmalink as ml
 
 def no_reenlightenment():
-    args = {'condition':'persistent.impermanence_four_no_reenlightenment == True and (persistent.trueending == True)','return_link':False}
+    skip_condition = '(persistent.endingsseen > 0 and trueselectable == False) or (persistent.impermanence_four_no_reenlightenment == True and persistent.trueending == True)'
+    args = {'condition':skip_condition,'return_link':False}
     ( ml.find_label('seccont')
         .search_scene('chap1')
         .search_with()
