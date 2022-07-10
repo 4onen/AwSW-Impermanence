@@ -2,6 +2,8 @@ from modloader.modclass import Mod, loadable_mod
 
 import jz_magmalink as ml
 
+import renpy
+
 def no_reenlightenment():
     skip_condition = '(persistent.endingsseen > 0 and trueselectable == False) or (persistent.impermanence_four_no_reenlightenment == True and persistent.trueending == True)'
     args = {'condition':skip_condition,'return_link':False}
@@ -211,25 +213,42 @@ def sebastian():
 
 
 def trueending_killer():
-    ( ml.find_label('c3cont')
-        .hook_call_to('impermanence_four_trueending_killer')
-    )
+    def trueending_killer_func():
+        renpy.store.trueselectable = False
+        renpy.store.cardenlightenment = False
+        renpy.store.cardloss = True
+    args = {'func':trueending_killer_func,'condition':'any([adinedead, annadead, brycedead, loremdead, remydead])'}
+
+    for label in ['c3cont', 'c3contx']:
+        ml.find_label(label).hook_function(**args)
 
     ( ml.find_label('chapter4')
         .search_python('_dismiss_pause = False')
-        .hook_call_to('impermanence_four_trueending_killer')
+        .hook_function(**args)
+    )
+
+    ( ml.find_label('brycefirst')
+        .search_if('persistent.brycegoodending == True')
+        .branch_else()
+        .search_python('brycedead = True')
+        .hook_function(**args)
+    )
+
+    ( ml.find_label('impermanence_four_remy_c4library_dead')
+        .search_python('remydead = True')
+        .hook_function(**args)
     )
 
     ( ml.find_label('c4postsections')
         .search_python('renpy.pause (2.0)')
-        .hook_call_to('impermanence_four_trueending_killer')
+        .hook_function(**args)
     )
 
     ( ml.find_label('chapter5')
         .search_python('_dismiss_pause = False')
-        .hook_call_to('impermanence_four_trueending_killer')
+        .hook_function(**args)
         .search_say("(Today is the day of the big fireworks. Who shall I bring?)")
-        .hook_call_to('impermanence_four_trueending_killer')
+        .hook_function(**args)
     )
 
 

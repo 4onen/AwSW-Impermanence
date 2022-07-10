@@ -42,14 +42,6 @@ init:
             imagebutton idle "image/ui/close_idle.png" hover "image/ui/close_hover.png" action [Hide("my_cool_screen"), Show("_ml_mod_settings"), Play("audio", "se/sounds/close.ogg")] hovered Play("audio", "se/sounds/select.ogg") style "smallwindowclose" at nav_button
 
 
-
-label impermanence_four_trueending_killer:
-    python:
-        if any([adinedead, annadead, brycedead, loremdead, remydead]):
-            trueselectable = False
-    return
-
-
 label impermanence_four_adine_killer:
     python:
         if remydead == False and (remygoodending == True or (persistent.remygoodending == True and not persistent.impermanence_four_killer)):
