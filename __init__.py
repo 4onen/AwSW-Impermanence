@@ -209,6 +209,29 @@ def sebastian():
     seb_complains.hook_to('impermanence_four_sebastian_choice', return_link=False, condition='persistent.sebastianplayed == True')
 
 
+def trueending_killer():
+    ( ml.find_label('c3cont')
+        .hook_call_to('impermanence_four_trueending_killer')
+    )
+
+    ( ml.find_label('chapter4')
+        .search_python('_dismiss_pause = False')
+        .hook_call_to('impermanence_four_trueending_killer')
+    )
+
+    ( ml.find_label('c4postsections')
+        .search_python('renpy.pause (2.0)')
+        .hook_call_to('impermanence_four_trueending_killer')
+    )
+
+    ( ml.find_label('chapter5')
+        .search_python('_dismiss_pause = False')
+        .hook_call_to('impermanence_four_trueending_killer')
+        .search_say("(Today is the day of the big fireworks. Who shall I bring?)")
+        .hook_call_to('impermanence_four_trueending_killer')
+    )
+
+
 @loadable_mod
 class AwSWImpermanenceMod(Mod):
     name = "Impermanence"
@@ -226,6 +249,8 @@ class AwSWImpermanenceMod(Mod):
         bryce()
         sebastian()
         vara()
+
+        trueending_killer()
 
     @staticmethod
     def mod_complete():

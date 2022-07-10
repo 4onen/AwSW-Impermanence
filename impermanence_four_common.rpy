@@ -43,6 +43,12 @@ init:
 
 
 
+label impermanence_four_trueending_killer:
+    python:
+        if any([adinedead, annadead, brycedead, loremdead, remydead]):
+            trueselectable = False
+    return
+
 
 label impermanence_four_adine_killer:
     python:
