@@ -63,22 +63,25 @@ label impermanence_four_no_reenlightenment_c2:
 
 label impermanence_four_no_reenlightenment_c3:
     show cenlightenment at Pan((100, 0), (0, 0), 2.0) with dissolveslow
-    $ cardenlightenment = True
-    $ lastcard = "cenlightenment"
-    $ carddisplayed = True
+    python:
+        cardenlightenment = True
+        lastcard = "cenlightenment"
+        carddisplayed = True
     jump impermanence_four_no_reenlightenment_c3_end
 
 label impermanence_four_no_reenlightenment_c4:
     show cenlightenment at Pan((100, 0), (0, 0), 2.0) with dissolveslow
-    $ cardenlightenment = True
-    $ lastcard = "cenlightenment"
-    $ carddisplayed = True
+    python:
+        cardenlightenment = True
+        lastcard = "cenlightenment"
+        carddisplayed = True
     jump impermanence_four_no_reenlightenment_c4_end
 
 label impermanence_four_no_reenlightenment_c5:
     show cenlightenment at Pan((100, 0), (0, 0), 2.0) with dissolveslow
-    $ cardenlightenment = True
-    $ lastcard = "cenlightenment"
-    $ carddisplayed = True
+    python:
+        cardenlightenment = True
+        lastcard = "cenlightenment"
+        carddisplayed = True
     jump impermanence_four_no_reenlightenment_c5_end
 

@@ -22,8 +22,9 @@ label impermanence_four_remy_c3endingmenu:
 
 
 label impermanence_four_remy_c5_killer:
-    if remystatus == "bad":
-        $ remydead = True
-    elif remystatus == "abandoned":
-        $ remydead = True
+    python:
+        if remystatus == "bad":
+            remydead = True
+        elif remystatus == "abandoned":
+            remydead = True
     jump impermanence_four_remy_c5_killer_return

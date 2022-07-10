@@ -45,14 +45,15 @@ init:
 
 
 label impermanence_four_adine_killer:
-    if remydead == False and (remygoodending == True or (persistent.remygoodending == True and not persistent.impermanence_four_killer)):
-        # Remy saves Adine
-        pass
-    elif adine4unplayed == False:
-        # Player saves Adine
-        pass
-    else:
-        # Adine dies in the flying compettition
-        $ adinedead = True
+    python:
+        if remydead == False and (remygoodending == True or (persistent.remygoodending == True and not persistent.impermanence_four_killer)):
+            # Remy saves Adine
+            pass
+        elif adine4unplayed == False:
+            # Player saves Adine
+            pass
+        else:
+            # Adine dies in the flying compettition
+            adinedead = True
 
     jump impermanence_four_adine_killer_return
