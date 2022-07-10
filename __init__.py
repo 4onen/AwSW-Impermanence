@@ -59,6 +59,26 @@ def adine():
     ml.find_label('chapter5').search_if('persistent.adinegoodending == False').hook_to('impermanence_four_adine_killer')
 
 
+def anna():
+    condition = 'annastatus in ["bad", "abandoned"] or (annastatus == "none" and persistent.impermanence_four_killer)'
+    def mark_anna_for_death():
+        renpy.store.annasurvives = False
+        renpy.store.trueselectable = False
+
+    def kill_anna():
+        renpy.store.annasurvives = False
+        renpy.store.annadead = True
+        renpy.store.trueselectable = False
+
+    ( ml.find_label('chapter3')
+        .hook_function(mark_anna_for_death, condition=condition)
+        .search_if('persistent.annagoodending == True')
+        .branch()
+        .search_python('annasurvives = True')
+        .hook_function(func=kill_anna, condition=condition)
+    )
+
+
 def bryce():
     brycecardif = ml.find_label('chapter4').search_if('persistent.brycegoodending == False')
     brycecardif.branch().search_if('totalinv <= 6').link_from('impermanence_four_bryce_c4card')
@@ -265,6 +285,7 @@ class AwSWImpermanenceMod(Mod):
         no_reenlightenment()
         testresults()
         adine()
+        anna()
         remy()
         bryce()
         sebastian()
