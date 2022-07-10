@@ -60,23 +60,19 @@ def adine():
 
 
 def anna():
-    condition = 'annastatus in ["bad", "abandoned"] or (annastatus == "none" and persistent.impermanence_four_killer)'
+    condition = 'annasurvives == False and annastatus in ["bad", "abandoned"] or (annastatus == "none" and persistent.impermanence_four_killer)'
     def mark_anna_for_death():
         renpy.store.annasurvives = False
         renpy.store.trueselectable = False
 
-    def kill_anna():
-        renpy.store.annasurvives = False
-        renpy.store.annadead = True
-        renpy.store.trueselectable = False
-
-    ( ml.find_label('chapter3')
+    c3 = ( ml.find_label('chapter3')
         .hook_function(mark_anna_for_death, condition=condition)
-        .search_if('persistent.annagoodending == True')
-        .branch()
-        .search_python('annasurvives = True')
-        .hook_function(func=kill_anna, condition=condition)
+        .search_say("Well, what is it?")
     )
+    ( c3.search_if('annasurvives == False')
+        .link_from('impermanence_four_anna_killer')
+    )
+    c3.hook_to('impermanence_four_anna_killer', condition=condition, return_link=False)
 
 
 def bryce():
