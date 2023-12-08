@@ -1,10 +1,8 @@
 from modloader.modclass import Mod, loadable_mod
 
-import jz_magmalink as ml
-
 import renpy
 
-def no_reenlightenment():
+def no_reenlightenment(ml):
     skip_condition = '(persistent.endingsseen > 0 and trueselectable == False) or (persistent.impermanence_four_no_reenlightenment == True and persistent.trueending == True)'
     args = {'condition':skip_condition,'return_link':False}
     ( ml.find_label('seccont')
@@ -43,7 +41,7 @@ def no_reenlightenment():
     c5.hook_to('impermanence_four_no_reenlightenment_c5_end',**args)
 
 
-def testresults():
+def testresults(ml):
     testresultsif = ml.find_label('c4skip1') \
         .search_if('persistent.endingsseen > 0') \
         .branch() \
@@ -55,7 +53,7 @@ def testresults():
             condition='blood == False') \
 
 
-def adine():
+def adine(ml):
     c4 = ml.find_label('chapter4').search_if('persistent.adinegoodending == False')
     c4.branch().search_if('adinestatus == "bad"').link_from('impermanence_four_adine_loss_card')
     c4.add_entry('persistent.impermanence_four_killer == True', jump='impermanence_four_adine_loss_card')
@@ -63,7 +61,7 @@ def adine():
     ml.find_label('chapter5').search_if('persistent.adinegoodending == False').hook_to('impermanence_four_adine_killer')
 
 
-def anna():
+def anna(ml):
     condition = 'annasurvives == False and annastatus in ["bad", "abandoned"] or (annastatus == "none" and persistent.impermanence_four_killer)'
     def mark_anna_for_death():
         renpy.store.annasurvives = False
@@ -89,7 +87,7 @@ def anna():
     ml.find_label('chapter4').hook_function(register_anna_loss, condition='annadead == True')
 
 
-def bryce():
+def bryce(ml):
     brycecardif = ml.find_label('chapter4').search_if('persistent.brycegoodending == False')
     brycecardif.branch().search_if('totalinv <= 6').link_from('impermanence_four_bryce_c4card')
     brycecardif.add_entry('persistent.impermanence_four_no_reenlightenment == True',jump='impermanence_four_bryce_c4card')
@@ -119,7 +117,7 @@ def bryce():
     )
 
 
-def remy():
+def remy(ml):
     # Chapter 2
     ( ml.find_label('_call_skipcheck_34')
         .hook_to('impermanence_four_remy_c2picturesseenskip')
@@ -155,7 +153,7 @@ def remy():
     ml.find_label('chapter5').search_if('persistent.remygoodending == False').hook_to('impermanence_four_remy_c5_killer')
 
 
-def vara():
+def vara(ml):
     adineif = ( 
         ml.find_label('c4hatchery')
         .search_if('adinestatus == "none"')
@@ -225,7 +223,7 @@ def vara():
     bryce4varasaved_line_before.hook_to('impermanence_four_vara_bryce4_dead',return_link=False,condition='varasaved == False and (persistent.varasaved == False or persistent.impermanence_four_killer)')
 
 
-def sebastian():
+def sebastian(ml):
     seb_complains = (
         ml.find_label('c4cont2')
         .search_if('mcfirst == True')
@@ -242,7 +240,7 @@ def sebastian():
     seb_complains.hook_to('impermanence_four_sebastian_choice', return_link=False, condition='persistent.sebastianplayed == True')
 
 
-def trueending_killer():
+def trueending_killer(ml):
     def trueending_killer_func():
         renpy.store.trueselectable = False
         if renpy.store.cardenlightenment:
@@ -292,17 +290,18 @@ class AwSWImpermanenceMod(Mod):
 
     @classmethod
     def mod_load(cls):
+        import jz_magmalink as ml
         ml.register_mod_settings(cls, screen='impermanence_four_modsettings')
-        no_reenlightenment()
-        testresults()
-        adine()
-        anna()
-        remy()
-        bryce()
-        sebastian()
-        vara()
+        no_reenlightenment(ml)
+        testresults(ml)
+        adine(ml)
+        anna(ml)
+        remy(ml)
+        bryce(ml)
+        sebastian(ml)
+        vara(ml)
 
-        trueending_killer()
+        trueending_killer(ml)
 
     @staticmethod
     def mod_complete():
